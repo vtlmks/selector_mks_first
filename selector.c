@@ -13,13 +13,17 @@
 // Local includes
 #include "data/ddr_tiny_small8x8.h"
 #include "data/zeus.h"
+
 #define UTILS_IMPLEMENTATION
 #include "utils.h"
+
+#include "protracker2.c"
 
 struct selector_info selector_information;
 
 struct selector_state {
 	struct loader_shared_state *shared;
+	struct pt_state zeus;
 	struct loader_info *remakes;
 	uint32_t star_x[120];
 	int32_t old_mouse_x;
@@ -40,6 +44,9 @@ void setup(struct loader_shared_state *state, struct loader_info *remakes, uint3
 	selector->remakes = remakes;
 	selector->old_mouse_x = state->mouse_x;
 	selector->old_mouse_y = state->mouse_y;
+
+	pt2play_initPlayer(48000);
+	pt2play_PlaySong(&selector->zeus, zeus_data, CIA_TEMPO_MODE, 48000);
 
 	for(uint32_t i = 0; i < 120; ++i) {
 		selector->star_x[i] = xor_generate_random(&selector->rand_state) % state->buffer_width;
@@ -65,8 +72,7 @@ void pre_selector_run(struct selector_state *state) {
 
 void audio_callback(struct selector_state *state, int16_t *audio_buffer, size_t frames) {
 	(void) state;
-
-	memset(audio_buffer, 0, frames*2*sizeof(int16_t));
+	pt2play_FillAudioBuffer(&state->zeus, audio_buffer, frames);
 }
 
 void calculate_lineposition_and_entry(uint32_t current_position, uint32_t total_entries, uint32_t visible_entries, uint32_t *first_row, uint32_t *selection_row, uint32_t *current_entry) {

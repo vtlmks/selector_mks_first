@@ -4,7 +4,7 @@
 OUT_FILE="mks_first"
 
 # Define common compiler flags
-COMMON_CFLAGS="-O2 -Wall -Wextra -pedantic -Wshadow -Wconversion -I../../include"
+COMMON_CFLAGS="-O2 -I../../include"
 DEBUG_FLAGS="-g"
 FPIC_FLAGS="-fPIC"
 SHARED_FLAGS="-shared"
