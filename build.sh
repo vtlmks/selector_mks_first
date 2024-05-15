@@ -9,6 +9,11 @@ DEBUG_FLAGS="-g"
 FPIC_FLAGS="-fPIC"
 SHARED_FLAGS="-shared"
 
+pushd data
+bmp2h -i ../graphics/ddr_tiny_small8x8.bmp -o ddr_tiny_small8x8
+bin2h -i ../music/zeus.mod -o zeus
+popd
+
 # Define the Linux output file and compile
 LINUX_OUT="selector_${OUT_FILE}.so"
 gcc $DEBUG_FLAGS $COMMON_CFLAGS $SHARED_FLAGS $FPIC_FLAGS -o "$LINUX_OUT" selector.c

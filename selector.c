@@ -11,8 +11,8 @@
 #include <selector.h>
 
 // Local includes
-#include "ddr_tiny_small8x8.h"
-
+#include "data/ddr_tiny_small8x8.h"
+#include "data/zeus.h"
 #define UTILS_IMPLEMENTATION
 #include "utils.h"
 
@@ -140,8 +140,6 @@ void render_text(struct loader_info *remakes, uint32_t line_count, uint32_t firs
 	}
 }
 
-
-#endif
 
 void render_selectionbar(struct selector_state *state, uint32_t selection_row) {
 	uint32_t select_color_bar[] = { 0x00660000, 0x00440000, 0x00550000, 0x00660000, 0x00550000, 0x00440000, 0x00330000, 0x00770000 };
