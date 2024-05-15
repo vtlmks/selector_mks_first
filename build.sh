@@ -2,6 +2,8 @@
 
 # Define output file base name
 OUT_FILE="mks_first"
+LINUX_OUT="selector_${OUT_FILE}.so"
+WINDOWS_OUT="selector_${OUT_FILE}.dll"
 
 # Define common compiler flags
 COMMON_CFLAGS="-O2 -I../../include"
@@ -9,21 +11,19 @@ DEBUG_FLAGS="-g"
 FPIC_FLAGS="-fPIC"
 SHARED_FLAGS="-shared"
 
-pushd data
+pushd data > /dev/null
+
 bmp2h -i ../graphics/ddr_tiny_small8x8.bmp -o ddr_tiny_small8x8
 bin2h -i ../music/zeus.mod -o zeus
-popd
 
-# Define the Linux output file and compile
-LINUX_OUT="selector_${OUT_FILE}.so"
+popd > /dev/null
+
+# Linux compilation
 gcc $DEBUG_FLAGS $COMMON_CFLAGS $SHARED_FLAGS $FPIC_FLAGS -o "$LINUX_OUT" selector.c
 
-# Define the Windows output file and compile
-WINDOWS_OUT="selector_${OUT_FILE}.dll"
+# Windows compilation
 x86_64-w64-mingw32-gcc $COMMON_CFLAGS $SHARED_FLAGS -o "$WINDOWS_OUT" selector.c
 
-# Move the Linux binary if it exists
+# Move the binaries if they exist
 [ -e "$LINUX_OUT" ] && mv "$LINUX_OUT" ../../bin/remakes
-
-# Move the Windows binary if it exists
 [ -e "$WINDOWS_OUT" ] && mv "$WINDOWS_OUT" ../../bin/remakes
