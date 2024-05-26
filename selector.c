@@ -172,6 +172,14 @@ uint32_t mainloop_callback(struct selector_state *state) {
 	state->old_mouse_y = state->shared->mouse_y;
 	state->current_y += mouse_delta;
 
+	if(state->shared->keyboard_state[REMAKE_KEY_UP]) {
+		state->current_y -= SPEED_DIVISOR;
+	}
+	if(state->shared->keyboard_state[REMAKE_KEY_DOWN]) {
+		state->current_y += SPEED_DIVISOR;
+	}
+
+
 	// Retrieve max_entry and clamp selector->current_y within bounds
 	uint32_t max_entry = state->remake_count;
 	int32_t max_y = (int32_t)(max_entry * SPEED_DIVISOR);
@@ -192,7 +200,7 @@ uint32_t mainloop_callback(struct selector_state *state) {
 	render_copper_line(state, 78 + 8*9 + 3);
 
 	// Handle mouse button input
-	if(state->shared->mouse_button_state[REMAKE_MOUSE_BUTTON_LEFT]) {
+	if(state->shared->mouse_button_state[REMAKE_MOUSE_BUTTON_LEFT] | state->shared->keyboard_state[REMAKE_KEY_ENTER]) {
 		return (current_entry << 8) | 1; // Use bitwise OR instead of addition
 	}
 
