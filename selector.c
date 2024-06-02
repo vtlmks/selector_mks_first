@@ -61,7 +61,7 @@ void cleanup(struct loader_shared_state *state) {
 	state->selector_state = 0;
 }
 
-void key_callback(struct selector_state *state, int key) {
+void key_callback(struct selector_state *state, int key, int action) {
 	(void) state;
 	(void) key;
 }
